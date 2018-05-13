@@ -137,3 +137,47 @@ def twoSum(self, root, n):
             else:
                 record.add(n - node.val)
             stack.extend([node.left, node.right])
+
+
+'''
+621. Task Scheduler
+https://leetcode.com/problems/task-scheduler/description/
+'''
+def leastInterval(self, tasks, n):
+    """
+    :type tasks: List[str]
+    :type n: int
+    :rtype: int
+    """
+    counts = dict()
+    for t in tasks:
+        if t in counts:
+            counts[t] += 1
+        else:
+            counts[t] = 1
+    longest = max(counts.values())
+    p = 0
+    for v in counts.values():
+        if v == longest:
+            p += 1
+    return max((longest-1)*(n+1) + p, len(tasks))
+
+# Follow up 1
+# What if instead of n you would have a map where each task will have its own cooldown.
+
+# Follow up 2
+# What if can't change the sequence
+def leastInterval(self, tasks, n):
+    count = 0
+    stack = []
+    lastIndex = {}
+    while tasks:
+        stack.append(tasks.pop())
+    while stack:
+        node = stack[-1]
+        if not (node in lastIndex and count - lastIndex[node] < n+ 1):
+            stack.pop()
+            lastIndex[node] = count
+        count += 1
+    return 
+
